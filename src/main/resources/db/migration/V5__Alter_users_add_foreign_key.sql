@@ -1,0 +1,15 @@
+CREATE TABLE IF NOT EXISTS schools(
+    id SERIAL PRIMARY KEY,
+    schoolName VARCHAR(255) NOT NULL,
+    schoolAddress VARCHAR(255) NOT NULL
+);
+
+ALTER TABLE users DROP COLUMN school;
+
+ALTER TABLE users ADD COLUMN schoolId INT;
+
+ALTER TABLE users
+ADD CONSTRAINT fk_users_school
+FOREIGN KEY (schoolId)
+REFERENCES schools(id)
+ON DELETE CASCADE;

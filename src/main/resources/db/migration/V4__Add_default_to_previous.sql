@@ -1,0 +1,1 @@
+UPDATE users SET height = 0 WHERE height IS NULL
