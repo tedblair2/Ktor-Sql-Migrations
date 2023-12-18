@@ -21,21 +21,21 @@ class UserServiceImpl : UserService {
 
     override suspend fun addUser(user: User): User? = dbQuery{
         val insertStmt=Users.insert {
-            it[name]=user.name
-            it[address]=user.address
-            it[schoolId]=user.schoolId
-            it[age]=user.age
-            it[height]=user.height
+            it[name]= user.name
+            it[address]= user.address
+            it[schoolId]= user.schoolId
+            it[age]= user.age
+            it[height]= user.height
         }
         insertStmt.resultedValues?.singleOrNull()?.let { resultRowToUser(it) }
     }
 
     override suspend fun updateUser(user: User): Boolean = dbQuery{
-        Users.update({Users.name eq user.name}){
-           it[schoolId]=user.schoolId
-           it[age]=user.age
-           it[address]=user.address
-            it[height]=user.height
+        Users.update({Users.name eq user.name }){
+           it[schoolId]= user.schoolId
+           it[age]= user.age
+           it[address]= user.address
+            it[height]= user.height
         }>0
     }
 

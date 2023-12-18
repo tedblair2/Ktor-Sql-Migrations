@@ -13,6 +13,21 @@ val appModule= module {
     single<SchoolService> {
         SchoolServiceImpl()
     }
+    single<DirectorService> {
+        DirectorServiceImpl()
+    }
+    single<MovieService> {
+        MovieServiceImpl()
+    }
+    single<CartService> {
+        CartServiceImpl()
+    }
+    single<PersonService> {
+        PersonServiceImpl()
+    }
+    single<CarService> {
+        CarServiceImpl()
+    }
 }
 
 fun Application.configureDI(){

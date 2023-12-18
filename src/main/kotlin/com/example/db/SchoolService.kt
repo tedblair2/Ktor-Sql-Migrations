@@ -12,4 +12,6 @@ interface SchoolService {
     suspend fun getSchool(id:Int):School?
     suspend fun getUserAndSchoolInfo():List<UserSchoolInfo>
     suspend fun getUserSchoolInfo(id: Int):UserSchoolInfo?
+    suspend fun getUserInfoLeftJoin():List<UserSchoolInfo>
+    suspend fun getUserInfoRightJoin():List<UserSchoolInfo>
 }

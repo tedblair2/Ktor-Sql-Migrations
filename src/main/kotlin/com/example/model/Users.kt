@@ -13,6 +13,13 @@ data class User(
     val height:Int,
     val id:Int=0,
 ):java.io.Serializable
+@Serializable
+data class UserOrder(
+    val userName:String,
+    val address: String,
+    val items:List<Cart>,
+    val total:Double
+)
 
 object Users:Table(){
     val id=integer("id").autoIncrement()

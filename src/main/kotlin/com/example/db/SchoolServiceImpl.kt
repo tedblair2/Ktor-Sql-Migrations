@@ -24,8 +24,8 @@ class SchoolServiceImpl : SchoolService {
 
     override suspend fun addSchool(school: School): School? = dbQuery {
         val insertStatement=Schools.insert {
-            it[schoolName]=school.schoolName
-            it[schoolAddress]=school.schoolAddress
+            it[schoolName]= school.schoolName
+            it[schoolAddress]= school.schoolAddress
         }
         insertStatement.resultedValues?.singleOrNull()?.let { resultRowToSchool(it) }
     }
@@ -53,7 +53,8 @@ class SchoolServiceImpl : SchoolService {
     override suspend fun getUserAndSchoolInfo(): List<UserSchoolInfo> = dbQuery {
         (Users innerJoin Schools)
             .slice(Users.name,Users.address,Users.age,Schools.schoolName,Schools.schoolAddress)
-            .selectAll()
+            .select { (Users.age less 30) }
+            .orderBy(Users.age to SortOrder.ASC)
             .map {
                 UserSchoolInfo(
                     name = it[Users.name],
@@ -78,5 +79,37 @@ class SchoolServiceImpl : SchoolService {
                     schoolAddress = it[Schools.schoolAddress]
                 )
             }.singleOrNull()
+    }
+
+    override suspend fun getUserInfoLeftJoin(): List<UserSchoolInfo> = dbQuery{
+        (Users leftJoin Schools)
+            .slice(Users.name,Users.address,Users.age,Schools.schoolName,Schools.schoolAddress)
+            .selectAll()
+            .map {
+                UserSchoolInfo(
+                    name = it[Users.name],
+                    address = it[Users.address],
+                    age = it[Users.age],
+                    schoolName = it[Schools.schoolName],
+                    schoolAddress = it[Schools.schoolAddress]
+                )
+            }
+    }
+
+    override suspend fun getUserInfoRightJoin(): List<UserSchoolInfo> = dbQuery{
+        (Users rightJoin  Schools)
+            .slice(Users.name,Users.address,Users.age,Schools.schoolName,Schools.schoolAddress)
+            .selectAll()
+            .orderBy(Users.age to SortOrder.ASC)
+            .limit(5)
+            .map {
+                UserSchoolInfo(
+                    name = it[Users.name],
+                    address = it[Users.address],
+                    age = it[Users.age],
+                    schoolName = it[Schools.schoolName],
+                    schoolAddress = it[Schools.schoolAddress]
+                )
+            }
     }
 }
